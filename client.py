@@ -1,7 +1,7 @@
 import dentalinktoken
 import requests
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from utils import *
 
 app = FastAPI()
@@ -9,11 +9,11 @@ app = FastAPI()
 @app.get("/appointments")
 def root(lower_date: str = "", upper_date: str = "", state: int = -1, branch: int = -1):
     if not check_parameters([lower_date, upper_date], state, branch):
-        return {"message": "Parámetros no cumplen con el formato o no existen"}
+        raise HTTPException(status_code=400, detail="Los parámetros entregados no cumplen con el formato o no existen.")
     else:
         query = '?q='
         filters = []
-        if lower_date + upper_date != "":
+        if len(lower_date + upper_date)==20:
             filters.append('"fecha":[{"gte":"'+lower_date+'"},{"lte":"'+upper_date+'"}]')
         if state != -1:
             filters.append('"estado_cita": {"eq":"'+str(state)+'"}')

@@ -5,7 +5,7 @@ import dentalinktoken
 def check_dates(dates: list):
     pattern = re.compile("(^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$)?")
     for date in dates:
-        if not pattern.match(date):
+        if not pattern.fullmatch(date):
             return False
     return True
 
