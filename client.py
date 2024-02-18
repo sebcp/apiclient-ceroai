@@ -6,9 +6,12 @@ from utils import *
 
 app = FastAPI()
 
+possible_states = get_states()
+possible_branches = get_branches()
+
 @app.get("/appointments")
 def root(lower_date: str = "", upper_date: str = "", state: int = -1, branch: int = -1):
-    if not check_parameters([lower_date, upper_date], state, branch):
+    if not check_parameters([lower_date, upper_date], state, possible_states, branch, possible_branches):
         raise HTTPException(status_code=400, detail="Los parámetros entregados no cumplen con el formato o no existen.")
     else:
         query = '?q='
