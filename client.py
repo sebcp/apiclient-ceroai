@@ -3,7 +3,6 @@ import requests
 import pytest
 import uvicorn
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 
 import dentalinktoken
 from utils import check_parameters, get_states, get_branches
