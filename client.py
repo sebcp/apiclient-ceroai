@@ -1,9 +1,13 @@
 import requests
 
+import pytest
+import uvicorn
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 import dentalinktoken
 from utils import check_parameters, get_states, get_branches
+'The module dentalinktoken is a local-only file with the Dentalink API token.'
 
 
 app = FastAPI()
@@ -31,6 +35,13 @@ def get_appointments(lower_date: str = "", upper_date: str = "", state: int = -1
     Since it's only possible to filter the appointments by date and state through their
     URI, it is necessary to use the URI provided by the branches to fetch the appointments
     if a branch is given.
+
+    It is assumed that all SQL queries made through the Dentalink API are made using prepared
+    statements and that it isn't the responsibility of this API client to protect the Dentalink API
+    from SQL injections. It is also asummed that there will not be any XSS attacks.
+
+    Pydantic is omitted because the rigorous validation of the library is too much for such a 
+    simple application. It could be used if it wasn't an interface between the bot and the Dentalink API.
     '''
     filters = []
     if len(lower_date + upper_date)==20:
@@ -68,3 +79,7 @@ def change_appointment_state(appointment_id: int, new_state: int):
     )
 
     return response.json()
+
+if __name__ == "__main__":
+    pytest.main(["-v", "test_client.py"])
+    uvicorn.run("client:app", host="127.0.0.1", port=8000)

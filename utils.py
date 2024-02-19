@@ -3,7 +3,8 @@ import requests
 
 import dentalinktoken
 
-def check_dates(dates: list):
+
+def check_dates(dates: list) -> bool:
     '''Checks if the given dates comply with the date format used.'''
     pattern = re.compile("(^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$)?")
     for date in dates:
@@ -11,7 +12,7 @@ def check_dates(dates: list):
             return False
     return True
 
-def get_states():
+def get_states() -> list:
     '''Scraps the possible states an appointment can take from the API.'''
     states = [-1]
 
@@ -27,14 +28,13 @@ def get_states():
 
     return states
 
-def check_state(state: int, possible_states: list):
+def check_state(state: int, possible_states: list) -> bool:
     '''Checks if the given state is an existing one.'''
-    if state in possible_states:
+    if state in possible_states and isinstance(state, int):
         return True
-    else:
-        return False
+    return False
 
-def get_branches():
+def get_branches() -> list:
     '''Scraps the possible branches in whcih an appointment can take place in from the API.'''
     branches = [-1]
 
@@ -50,14 +50,14 @@ def get_branches():
 
     return branches
 
-def check_branch(branch: int, possible_branches):
+def check_branch(branch: int, possible_branches) -> bool:
     '''Checks if the given branch is an existing one.'''
-    if branch not in possible_branches:
-        return False
-    else:
+    if branch in possible_branches and isinstance(branch, int):
         return True
+    return False
 
-def check_parameters(dates: list, state: int, possible_states: list, branch: int, possible_branches: list):
+def check_parameters(dates: list, state: int, possible_states: list, branch: int, \
+    possible_branches: list) -> bool:
     '''Checks all the parameters the GET /appointments method takes.'''
-    return check_dates(dates) and check_state(state, possible_states) and check_branch(branch, possible_branches)
-
+    return check_dates(dates) and check_state(state, possible_states) \
+        and check_branch(branch, possible_branches)

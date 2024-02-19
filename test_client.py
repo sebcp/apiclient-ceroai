@@ -15,7 +15,7 @@ def test_read_appointments():
     assert response.json()["data"] != []
 
 def test_read_appointments_error():
-'''It tests unsuccessful appointment retrievals.'''
+    '''It tests unsuccessful appointment retrievals.'''
     response = client.get("/appointments", params={"lower_date": "18-02-2024", "upper_date": "20-02-2024"})
     assert response.status_code == 400
 
