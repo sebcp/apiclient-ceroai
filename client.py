@@ -31,3 +31,16 @@ def root(lower_date: str = "", upper_date: str = "", state: int = -1, branch: in
         )
 
         return response.json()
+
+@app.put("/appointments/{appointment_id}")
+def root(appointment_id: int, new_state: int):
+    if new_state not in possible_states:
+        raise HTTPException(status_code=400, detail="El nuevo estado entregado no existe.")
+
+    response = requests.put(
+        f'https://api.dentalink.healthatom.com/api/v1/citas/{appointment_id}',
+        headers={"Authorization": "Token " + dentalinktoken.DENTALINK_TOKEN},
+        data={"id_estado": new_state}
+    )
+
+    return response.json()
