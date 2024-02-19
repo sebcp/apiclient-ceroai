@@ -1,19 +1,21 @@
 import requests
-import dentalinktoken
 
 from fastapi.testclient import TestClient
 
+import dentalinktoken
 from client import app
 
 client = TestClient(app)
 
 
 def test_read_appointments():
+    '''It tests successful appointment retrievals.'''
     response = client.get("/appointments")
     assert response.status_code == 200
     assert response.json()["data"] != []
 
 def test_read_appointments_error():
+'''It tests unsuccessful appointment retrievals.'''
     response = client.get("/appointments", params={"lower_date": "18-02-2024", "upper_date": "20-02-2024"})
     assert response.status_code == 400
 
@@ -24,6 +26,7 @@ def test_read_appointments_error():
     assert response.status_code == 400
 
 def test_successfully_change_appointment_state():
+    '''It tests successful appointment state modifications.'''
     dummy_data = {
         "id_dentista"       : 2,
         "id_sucursal"       : 1,
@@ -51,6 +54,7 @@ def test_successfully_change_appointment_state():
     assert response.json()["data"]["id_estado"] == 26
 
 def test_unsuccessfully_change_appointment_state():
+    '''It tests unsuccessful appointment state modifications.'''
     response = client.put(f"/appointments/336", params={"new_state": 1000})
     assert response.status_code == 400
 
