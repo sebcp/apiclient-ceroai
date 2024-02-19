@@ -1,9 +1,9 @@
 # README
-------
+
 Ejercicio de implementación de API para postulación de Ingeniero de Integraciones en Cero.ai.
 
 ## Requisitos
-------
+
 La implementación del cliente intermedio entre el bot de Cero.ai y la API de Dentalink requiere:
 * Python >= 3.11
 * Las dependencias que se encuentran en el archivo requirements.txt y que pueden ser instaladas automáticamente usando
@@ -12,7 +12,7 @@ La implementación del cliente intermedio entre el bot de Cero.ai y la API de De
 * Un token para acceder a la API de Dentalink que debe ser definida en un archivo llamado dentalinktoken.py que contenga la siguiente linea de código:
 >DENTALINK_TOKEN = "pegar-token-aquí"
 ## Cómo usarla
-------
+
 Para utilizar el cliente se puede llamar el siguiente comando desde la terminal estando dentro de la carpeta que contiene el proyecto:
 ```python client.py```
 
